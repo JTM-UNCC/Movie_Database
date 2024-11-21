@@ -5,13 +5,13 @@ CREATE TABLE Movies (
     title VARCHAR(100),
     genre VARCHAR(50),
     release_year INT,
-    director VARCHAR(100)
+    director VARCHAR(200)
 );
 
 CREATE TABLE Users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50),
-    email VARCHAR(100)
+    email VARCHAR(200)
 );
 
 CREATE TABLE Watchlist (
