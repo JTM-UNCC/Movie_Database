@@ -128,3 +128,27 @@ BEGIN
 END;
 // DELIMITER ;
 
+-- 7. Clear watclist for user --
+DELIMITER //
+CREATE PROCEDURE ClearUserWatchlist (
+    IN userId INT
+)
+BEGIN
+    DELETE FROM Watchlist
+    WHERE user_id = userId;
+END;
+// DELIMITER ;
+
+-- 8. Display user info --
+DELIMITER //
+CREATE PROCEDURE GetUserInfo (
+    IN userId INT
+)
+BEGIN
+    SELECT username, email
+    FROM Users
+    WHERE id = userId;
+END;
+// DELIMITER ;
+
+
