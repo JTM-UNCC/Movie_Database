@@ -151,4 +151,21 @@ BEGIN
 END;
 // DELIMITER ;
 
+-- 9. Display user list --
+DELIMITER //
+CREATE PROCEDURE DisplayAllUsers ()
+BEGIN
+    SELECT id, username, email
+    FROM Users;
+END;
+// DELIMITER ;
+
+-- 10. Display movie list --
+CREATE PROCEDURE DisplayAllMovies ()
+BEGIN
+    SELECT id, title, genre, release_year, director
+    FROM Movies;
+END;
+// DELIMITER ;
+
 
