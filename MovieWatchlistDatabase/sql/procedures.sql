@@ -25,9 +25,9 @@ BEGIN
     JOIN Movies m ON w.movie_id = m.id
     WHERE w.user_id = userId;
 END;
+// DELIMITER ;
 
 -- Removes a movie from watchlist --
-// DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE RemoveFromWatchlist (
     IN userId INT,
