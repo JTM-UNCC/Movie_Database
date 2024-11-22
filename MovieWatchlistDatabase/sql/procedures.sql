@@ -1,6 +1,6 @@
 -- PROCEDURES --
 
--- Adds Movie to a users Watchlist
+-- 1. Adds Movie to a users Watchlist
 DELIMITER //
 CREATE PROCEDURE AddToWatchlist (
     IN userId INT,
@@ -25,7 +25,7 @@ BEGIN
 END;
 // DELIMITER ;
 
--- Gets all movies on Wacthlist for a user --
+-- 2. Gets all movies on Wacthlist for a user --
 DELIMITER //
 CREATE PROCEDURE GetUserWatchlist (
     IN userId INT
@@ -38,7 +38,7 @@ BEGIN
 END;
 // DELIMITER ;
 
--- Removes a movie from watchlist --
+-- 3. Removes a movie from watchlist --
 DELIMITER //
 CREATE PROCEDURE RemoveFromWatchlist (
     IN userId INT,
@@ -62,7 +62,7 @@ BEGIN
 END;
 // DELIMITER ;
 
--- Checks if movie is in watchlist --
+-- 4. Checks if movie is in watchlist --
 DELIMITER //
 CREATE PROCEDURE IsInWatchlist (
     IN userId INT,
@@ -78,7 +78,7 @@ BEGIN
 END;
 // DELIMITER ;
 
--- Add a new user --
+-- 5. Add a new user --
 DELIMITER //
 CREATE PROCEDURE CreateUser (
     IN username VARCHAR(50),
@@ -102,7 +102,7 @@ BEGIN
 END;
 // DELIMITER ;
 
--- Add a new movie to the movies table --
+-- 6. Add a new movie to the movies table --
 DELIMITER //
 CREATE PROCEDURE AddMovie (
     IN movieTitle VARCHAR(100),
