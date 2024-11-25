@@ -8,7 +8,7 @@ Step 1: Go to : https://dbfiddle.uk/
 
 
 
-Step 2: Click on MySQL and make sure the version is set to 8.0
+Step 2: Click on MySQL and make sure the version is set to 8.0 (You should see it at the top of the screen)
 
 
 
