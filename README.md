@@ -18,19 +18,19 @@ Click Run to create the database.
 
 
 Step 4:
-Paste the content of data.sql after the table creation script.
+Use the "+" button below the editor to add a new file. Paste the content of data.sql into this new window.
 Click Run to populate the database with sample data.
 
 
 
 Step 5:
-Paste the content of procedures.sql after the data insertion script.
+Use the "+" button below the editor to add a new file. Paste the content of procedures.sql into this new window.
 Click Run to define the stored procedures.
 
 
 
 Step 6:
-Run test queries to interact with the database and demonstrate its functionality.
+Create one last new file using the "+" button. In teh new windoww, run test queries to interact with the database and demonstrate its functionality.
 SELECT query that checks content of tables: 
 
 SELECT * FROM Users;
