@@ -1,7 +1,4 @@
--- PROCEDURES --
-
--- 1. Adds Movie to a users Watchlist
-DELIMITER //
+-- 1. Adds Movie to a user's Watchlist
 CREATE PROCEDURE AddToWatchlist (
     IN userId INT,
     IN movieId INT,
@@ -11,8 +8,8 @@ BEGIN
     -- Check if the movie exists --
     IF NOT EXISTS (
         SELECT 1 
-        FROM Watchlist 
-        WHERE id = movieId
+        FROM Movies 
+        WHERE movie_id = movieId
     ) THEN
         -- Error --
         SIGNAL SQLSTATE '45000'
@@ -23,23 +20,19 @@ BEGIN
         VALUES (userId, movieId, status);
     END IF;
 END;
-// DELIMITER ;
 
--- 2. Gets all movies on Wacthlist for a user --
-DELIMITER //
+-- 2. Gets all movies on Watchlist for a user
 CREATE PROCEDURE GetUserWatchlist (
     IN userId INT
 )
 BEGIN
     SELECT m.title, m.genre, w.status
     FROM Watchlist w
-    JOIN Movies m ON w.movie_id = m.id
+    JOIN Movies m ON w.movie_id = m.movie_id
     WHERE w.user_id = userId;
 END;
-// DELIMITER ;
 
--- 3. Removes a movie from watchlist --
-DELIMITER //
+-- 3. Removes a movie from Watchlist
 CREATE PROCEDURE RemoveFromWatchlist (
     IN userId INT,
     IN movieId INT
@@ -49,7 +42,7 @@ BEGIN
     IF NOT EXISTS (
         SELECT 1 
         FROM Watchlist 
-        WHERE id = movieId
+        WHERE movie_id = movieId
     ) THEN
         -- Error --
         SIGNAL SQLSTATE '45000'
@@ -60,10 +53,8 @@ BEGIN
         WHERE user_id = userId AND movie_id = movieId;
     END IF;
 END;
-// DELIMITER ;
 
--- 4. Checks if movie is in watchlist --
-DELIMITER //
+-- 4. Checks if movie is in Watchlist
 CREATE PROCEDURE IsInWatchlist (
     IN userId INT,
     IN movieId INT,
@@ -76,10 +67,8 @@ BEGIN
         WHERE user_id = userId AND movie_id = movieId
     ) INTO isIn;
 END;
-// DELIMITER ;
 
--- 5. Add a new user --
-DELIMITER //
+-- 5. Add a new user
 CREATE PROCEDURE CreateUser (
     IN username VARCHAR(50),
     IN email VARCHAR(200)
@@ -100,10 +89,8 @@ BEGIN
         VALUES (username, email);
     END IF;
 END;
-// DELIMITER ;
 
--- 6. Add a new movie to the movies table --
-DELIMITER //
+-- 6. Add a new movie to the Movies table
 CREATE PROCEDURE AddMovie (
     IN movieTitle VARCHAR(100),
     IN movieGenre VARCHAR(50),
@@ -126,10 +113,8 @@ BEGIN
         VALUES (movieTitle, movieGenre, releaseYear, movieDirector);
     END IF;
 END;
-// DELIMITER ;
 
--- 7. Clear watclist for user --
-DELIMITER //
+-- 7. Clear Watchlist for user
 CREATE PROCEDURE ClearUserWatchlist (
     IN userId INT
 )
@@ -137,35 +122,27 @@ BEGIN
     DELETE FROM Watchlist
     WHERE user_id = userId;
 END;
-// DELIMITER ;
 
--- 8. Display user info --
-DELIMITER //
+-- 8. Display user info
 CREATE PROCEDURE GetUserInfo (
     IN userId INT
 )
 BEGIN
     SELECT username, email
     FROM Users
-    WHERE id = userId;
+    WHERE user_id = userId;
 END;
-// DELIMITER ;
 
--- 9. Display user list --
-DELIMITER //
+-- 9. Display user list
 CREATE PROCEDURE DisplayAllUsers ()
 BEGIN
-    SELECT id, username, email
+    SELECT user_id, username, email
     FROM Users;
 END;
-// DELIMITER ;
 
--- 10. Display movie list --
+-- 10. Display movie list
 CREATE PROCEDURE DisplayAllMovies ()
 BEGIN
-    SELECT id, title, genre, release_year, director
+    SELECT movie_id, title, genre, release_year, director
     FROM Movies;
 END;
-// DELIMITER ;
-
-
