@@ -30,7 +30,7 @@ Click Run to define the stored procedures.
 
 
 Step 6:
-Create one last new file using the "+" button. In teh new windoww, run test queries to interact with the database and demonstrate its functionality.
+Create one last new file using the "+" button. In the new windoww, run test queries to interact with the database and demonstrate its functionality.
 SELECT query that checks content of tables: 
 
 SELECT * FROM Users;
