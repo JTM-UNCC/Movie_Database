@@ -5,17 +5,24 @@ CREATE PROCEDURE AddToWatchlist (
     IN status VARCHAR(20)
 )
 BEGIN
-    -- Check if the movie exists --
+    -- Check if user exists
     IF NOT EXISTS (
-        SELECT 1 
-        FROM Movies 
+        SELECT 1
+        FROM Users
+        WHERE user_id = userId
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The user does not exist in the Users table.';
+    -- Check if movie exists
+    ELSEIF NOT EXISTS (
+        SELECT 1
+        FROM Movies
         WHERE movie_id = movieId
     ) THEN
-        -- Error --
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'The movie does not exist in the Movies table. Please add it first.';
+        SET MESSAGE_TEXT = 'The movie does not exist in the Movies table.';
     ELSE
-        -- Add to Watchlist --
+        -- Insert into Watchlist
         INSERT INTO Watchlist (user_id, movie_id, status)
         VALUES (userId, movieId, status);
     END IF;
@@ -26,10 +33,21 @@ CREATE PROCEDURE GetUserWatchlist (
     IN userId INT
 )
 BEGIN
-    SELECT m.title, m.genre, w.status
-    FROM Watchlist w
-    JOIN Movies m ON w.movie_id = m.movie_id
-    WHERE w.user_id = userId;
+    -- Check if the user exists
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Users
+        WHERE user_id = userId
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'The user does not exist in the Users table.';
+    ELSE
+        -- Retrieve the user's watchlist
+        SELECT m.title, m.genre, w.status
+        FROM Watchlist w
+        JOIN Movies m ON w.movie_id = m.movie_id
+        WHERE w.user_id = userId;
+    END IF;
 END;
 
 -- 3. Removes a movie from Watchlist
@@ -38,20 +56,9 @@ CREATE PROCEDURE RemoveFromWatchlist (
     IN movieId INT
 )
 BEGIN
-    -- Check if the movie exists --
-    IF NOT EXISTS (
-        SELECT 1 
-        FROM Watchlist 
-        WHERE movie_id = movieId
-    ) THEN
-        -- Error --
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'The specified movie does not exist in the Movies table.';
-    ELSE
-        -- Remove the movie from the Watchlist
-        DELETE FROM Watchlist
-        WHERE user_id = userId AND movie_id = movieId;
-    END IF;
+    -- Remove the movie from the Watchlist
+    DELETE FROM Watchlist
+    WHERE user_id = userId AND movie_id = movieId;
 END;
 
 -- 4. Checks if movie is in Watchlist
@@ -78,15 +85,15 @@ BEGIN
     IF EXISTS (
         SELECT 1
         FROM Users
-        WHERE username = username OR email = email
+        WHERE Users.username = username OR Users.email = email
     ) THEN
         -- Error --
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'A user with the same username or email already exists.';
     ELSE
         -- Create new user --
-        INSERT INTO Users (username, email)
-        VALUES (username, email);
+        INSERT INTO Users (username, email, role)
+        VALUES (username, email, 'User');
     END IF;
 END;
 
